@@ -7,7 +7,18 @@ function Page() {
     const [loading, setLoading] = useState(false);
     const [loading2, setLoading2] = useState(false);
 
- 
+    const handleClientError = () => {
+        throw new Error("Client error : something went wrong in the browser!");
+    };
+
+    const handleApiError = async() => {
+        await fetch("/api/demo/error",{ method: "POST"});
+    };
+
+    const handleInngestError = async() => {
+        await fetch("/api/demo/inngest-error",{ method :"POST"});
+    };
+
 
     const handleBlocking = async ()=>{
         setLoading(true);
@@ -30,6 +41,20 @@ function Page() {
          <Button disabled ={loading2} onClick={handleBackground}>
             {loading2 ? "Loding..." : "Background"}
         </Button>
+
+        <Button onClick={handleClientError} variant="destructive">
+        Client Error
+        </Button>
+
+        <Button onClick={handleApiError} variant="destructive">
+        Api Error
+        </Button>
+
+        <Button onClick={handleInngestError} variant="destructive">
+        Inngest Error
+        </Button>
+
+
     </div>
   )
 }
