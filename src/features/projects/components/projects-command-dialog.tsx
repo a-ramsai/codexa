@@ -13,7 +13,7 @@ import {
 
 
 import { Doc } from "../../../../convex/_generated/dataModel";
-import { useProjects } from "../hooks/use-projects ";
+import { useProjects } from "../hooks/use-projects";
 
 interface ProjectsCommandDialogProps {
   open: boolean;
