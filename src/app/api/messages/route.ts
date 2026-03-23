@@ -47,7 +47,36 @@ export async function POST(request: Request) {
 
   const projectId = conversation.projectId;
 
-  // TODO: Check for processing messages
+   const proceessingMessages = await convex.query(
+
+        api.system.getProcessingMessages,
+        {
+          internalKey,
+          projectId,
+        }
+      );
+      
+    if(proceessingMessages.length>0)
+    {
+      await Promise.all(
+        proceessingMessages.map(async (msg)=>{
+          await inngest.send({
+            name: "message/cancel",
+            data: {
+              messageId : msg._id,
+            }
+          })
+
+          await convex.mutation(api.system.updateMessageStatus,{
+            internalKey,
+            messageId: msg._id,
+            status : "cancelled",
+          });
+
+          return msg._id;
+        })
+      )
+    }
 
   // Create user message
   await convex.mutation(api.system.createMessage, {
@@ -71,11 +100,14 @@ export async function POST(request: Request) {
     }
   );
 
-  // TODO: Invoke inngest to process the message
+//triger ingest to processs the message
   const event = await inngest.send({
     name: "message/sent",
     data: {
       messageId: assistantMessageId,
+      conversationId,
+      projectId,
+      message,
     },
   });
 
