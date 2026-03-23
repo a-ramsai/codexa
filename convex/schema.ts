@@ -1,6 +1,7 @@
 import { conversationIdIntegration } from "@sentry/core";
 import { defineSchema,defineTable } from "convex/server";
 import {v} from "convex/values"
+import { Settings } from "lucide-react";
 import { updateTag } from "next/cache";
 
 
@@ -26,6 +27,12 @@ export default defineSchema({
             ),
         ),
         exportRepoUrl : v.optional(v.string()),
+        settings: v.optional(
+            v.object({
+                installCommand: v.optional(v.string()),
+                devCommand: v.optional(v.string()),
+            })
+        ),
     }).index("by_owner",["ownerId"]),
 
     files : defineTable({
