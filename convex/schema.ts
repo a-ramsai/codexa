@@ -20,10 +20,10 @@ export default defineSchema({
         ),
         exportStatus:v.optional( 
             v.union(
-                v.literal("Exporting"),
+                v.literal("exporting"),
                 v.literal("completed"),
                 v.literal("failed"),
-                v.literal("Cancelled"),
+                v.literal("cancelled"),
             ),
         ),
         exportRepoUrl : v.optional(v.string()),
