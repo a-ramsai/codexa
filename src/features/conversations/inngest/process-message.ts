@@ -175,7 +175,7 @@ export const processMessage = inngest.createFunction(
 
     // Create network with single agent
     const network = createNetwork({
-      name: "polaris-network",
+      name: "codexa-network",
       agents: [codingAgent],
       maxIter: 20,
       router: ({ network }) => {

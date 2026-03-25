@@ -18,6 +18,7 @@ import Projectslist from "./projects-list";
 import { useCreateProject } from "../hooks/use-projects";
 import { ProjectsCommandDialog } from "./projects-command-dialog";
 import { ImportGithubDialog } from "./file-explorer/import-github-dialog";
+import { NewProjectDialog } from "./new-project-dialog";
 
 
 
@@ -31,7 +32,7 @@ const font = Poppins({
 
   const [commandDialogOpen, setCommandDialogOpen] = useState(false);
   const [importDialogOpen,setImportDialogOpen] = useState(false);
-
+  const [newProjectDialogOpen,setNewProjectDialogOpen] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -44,6 +45,10 @@ const font = Poppins({
           e.preventDefault();
           setImportDialogOpen(true);
         }
+         if (e.key === "j") {
+          e.preventDefault();
+          setNewProjectDialogOpen(true);
+        }
         
       }
     }
@@ -52,6 +57,9 @@ const font = Poppins({
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+
+
+
   return (
     <>
       <ProjectsCommandDialog 
@@ -59,7 +67,10 @@ const font = Poppins({
         onOpenChange={setCommandDialogOpen}
       />
       <ImportGithubDialog open={importDialogOpen} onOpenChange={setImportDialogOpen} />
-
+      <NewProjectDialog
+        open={newProjectDialogOpen}
+        onOpenChange={setNewProjectDialogOpen}
+      />
       <div className="min-h-screen bg-sidebar flex flex-col items-center justify-center p-6 md:p-16">
         <div className="w-full max-w-sm mx-auto flex flex-col gap-4 items-center">
 
@@ -81,37 +92,50 @@ const font = Poppins({
 
           <div className="flex flex-col gap-4 w-full">
             <div className="grid grid-cols-2 gap-2">
-              <Button
-                variant="outline"
-                onClick={() => {
-                  const projectName = uniqueNamesGenerator({
-                    dictionaries: [
-                      adjectives,
-                      animals,
-                      colors,
-                    ],
-                    separator: "-",
-                    length: 3,
-                  });
+              <div className="relative group h-full">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    const projectName = uniqueNamesGenerator({
+                      dictionaries: [
+                        adjectives,
+                        animals,
+                        colors,
+                      ],
+                      separator: "-",
+                      length: 3,
+                    });
 
-                  createProject({
-                    name: projectName,
-                  });
-                }}
-                className="h-full items-start justify-start p-4 bg-background border flex flex-col gap-6 rounded-none"
-              >
-                <div className="flex items-center justify-between w-full">
-                  <SparkleIcon className="size-4" />
-                  <Kbd className="bg-accent border">
-                    ⌘J
-                  </Kbd>
-                </div>
-                <div>
-                  <span className="text-sm">
-                    New
-                  </span>
-                </div>
-              </Button>
+                    createProject({
+                      name: projectName,
+                    });
+                  }}
+                  className="w-full h-full items-start justify-start p-4 bg-background border flex flex-col gap-6 rounded-none"
+                >
+                  <div className="flex items-center justify-between w-full">
+                    <SparkleIcon className="size-4" />
+                    <Kbd className="bg-accent border">
+                      ⌘J
+                    </Kbd>
+                  </div>
+                  <div>
+                    <span className="text-sm">
+                      New
+                    </span>
+                  </div>
+                </Button>
+                <Button 
+                  size="sm" 
+                  variant="secondary" 
+                  className="absolute bottom-3 right-3 h-6 text-xs px-2 hidden group-hover:flex shadow-none z-10"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setNewProjectDialogOpen(true);
+                  }}
+                >
+                  AI
+                </Button>
+              </div>
               <Button
                 variant="outline"
                 onClick={() => setImportDialogOpen(true)}
