@@ -568,6 +568,8 @@ For support, issues, or questions:
 - Open an issue on GitHub
 - Check existing documentation
 - Review component storybooks if available
+  
+<img width="1438" height="734" alt="image" src="https://github.com/user-attachments/assets/8e5a7b25-f7aa-4c43-a4d8-6d90971bcd9a" />
 
 ---
 
